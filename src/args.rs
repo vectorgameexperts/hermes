@@ -17,7 +17,7 @@ impl Args {
     #[tracing::instrument(level = "trace", skip_all)]
     pub async fn run(self) -> Result<()> {
         match self.action {
-            Subcommands::Build => todo!("build"),
+            Subcommands::Build(build) => build.run(),
             Subcommands::Clean => todo!("clean"),
             Subcommands::Serve => todo!("serve"),
         }

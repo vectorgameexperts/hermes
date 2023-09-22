@@ -214,6 +214,7 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "clap",
+ "serde",
  "tokio",
  "toml",
  "tracing",

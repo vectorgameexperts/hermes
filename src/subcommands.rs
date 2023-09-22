@@ -1,8 +1,9 @@
 use clap::Subcommand;
+use hermes::commands::build::BuildArgs;
 
 #[derive(Subcommand, Debug)]
 pub enum Subcommands {
-    Build,
+    Build(BuildArgs),
     Clean,
     Serve,
 }
