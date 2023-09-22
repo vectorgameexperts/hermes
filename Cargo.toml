@@ -5,7 +5,7 @@ edition = "2021"
 description = "Package Bevy apps on Web and Native platforms."
 authors = [
   "Spencer C. Imbleau <spencer@vgx.dev>",
-  "Luke Volkner <luke@vgx.dev>",
+  "Luke Volkmer <luke@vgx.dev>",
 ]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/vectorgameexperts/hermes"
