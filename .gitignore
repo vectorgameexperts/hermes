@@ -28,3 +28,6 @@ dist/
 
 # Generated on wasm-pack failure
 **/unsupported.js
+
+# Developer notes
+DevNotes.md
