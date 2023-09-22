@@ -5,6 +5,40 @@ use std::fs;
 use std::path::Path;
 use tracing::info;
 
+//package field
+#[derive(serde::Deserialize)]
+struct Package {
+    version: String,
+    #[serde(default)]
+    metadata: Option<MetaData>,
+}
+
+//  package.metadata field
+#[derive(serde::Deserialize)]
+struct MetaData {
+    #[serde(default)]
+    hermes: Option<HermesMetaData>,
+}
+
+// package.metadata.hermes field
+#[derive(serde::Deserialize)]
+struct HermesMetaData {
+    #[serde(default)]
+    icon_android: Option<String>,
+    #[serde(default)]
+    icon_iphone: Option<String>,
+    #[serde(default)]
+    icon_web: Option<String>,
+    #[serde(default)]
+    require_webgpu: Option<bool>,
+}
+
+// struct for the toml and fields we need
+#[derive(serde::Deserialize)]
+struct WorkspaceToml {
+    package: Package,
+}
+
 /// Build your application
 #[derive(Debug, Args)]
 #[clap(name = "build")]
@@ -25,6 +59,7 @@ pub fn build(args: &BuildArgs) -> Result<()> {
     let current_dir = env::current_dir()?;
     let current_dir_str = current_dir.to_string_lossy().to_string();
     let workspace_toml = format!("{}/Cargo.toml", current_dir_str);
+
     info!("Current working directory: {:?}", current_dir_str);
 
     // Check if the Cargo.toml file exists
@@ -37,48 +72,43 @@ pub fn build(args: &BuildArgs) -> Result<()> {
     let toml_content = fs::read_to_string(&workspace_toml)?;
     // Find the Cargo.toml file
 
-    #[derive(serde::Deserialize)]
-    struct Package {
-        version: String,
-        metadata: MetaData,
-    }
-
-    #[derive(serde::Deserialize)]
-    struct MetaData {
-        hermes: HermesMetaData,
-    }
-    #[derive(serde::Deserialize)]
-    struct HermesMetaData {
-        icon_android: String,
-        icon_iphone: String,
-        icon_web: String,
-        require_webgpu: bool,
-    }
-    #[derive(serde::Deserialize)]
-    struct WorkspaceToml {
-        package: Package,
-    }
     let toml_file: WorkspaceToml = toml::from_str(&toml_content).unwrap();
     info!(
         "The version in your Cargo.toml package is: {:?}",
         args.version.clone().unwrap_or(toml_file.package.version)
     );
-    info!(
-        "Found: {:?} as current favicon",
-        toml_file.package.metadata.hermes.icon_web
-    );
-    info!(
-        "Found: {:?} as current android icon",
-        toml_file.package.metadata.hermes.icon_android
-    );
-    info!(
-        "Found: {:?} as current iphone icon",
-        toml_file.package.metadata.hermes.icon_iphone
-    );
-    info!(
-        "Web GPU Enabled? {:?}",
-        toml_file.package.metadata.hermes.require_webgpu
-    );
+    if let Some(MetaData {
+        hermes: Some(hermes),
+    }) = &toml_file.package.metadata
+    {
+        info!(
+            "Favicon: {:?}",
+            hermes
+                .icon_web
+                .as_ref()
+                .unwrap_or(&"No icon_web found".to_string())
+        );
+        info!(
+            "Android icon: {:?}",
+            hermes
+                .icon_android
+                .as_ref()
+                .unwrap_or(&"No icon_android found".to_string())
+        );
+        info!(
+            "Iphone icon: {:?}",
+            hermes
+                .icon_iphone
+                .as_ref()
+                .unwrap_or(&"No icon_iphone found".to_string())
+        );
+        info!(
+            "Web GPU Enabled? {:?}",
+            hermes.require_webgpu.unwrap_or(false)
+        );
+    } else {
+        info!("No hermes configurations found");
+    }
 
     // Exit cleanly
     Ok(())
