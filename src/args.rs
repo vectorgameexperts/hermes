@@ -4,7 +4,7 @@ use clap::Parser;
 
 /// Application cross-platform bundler for bevy apps
 #[derive(Parser, Debug)]
-#[clap(about, author, version, name = "cddns")]
+#[clap(about, author, version, name = "hermes")]
 pub struct Args {
     #[clap(subcommand)]
     action: Subcommands,
