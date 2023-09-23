@@ -1,7 +1,10 @@
+use std::env;
+
 use anyhow::Result;
 use clap::Args;
 
-use crate::build::parse_toml::get_toml;
+use crate::build::pack_wasm::pack;
+use crate::build::parse_toml::get_toml_data;
 
 /// Build your application
 #[derive(Debug, Args)]
@@ -19,6 +22,10 @@ impl BuildArgs {
 }
 
 pub fn build(args: &BuildArgs) -> Result<()> {
-    // Exit cleanly
-    get_toml()
+    let current_dir = env::current_dir()?;
+    let current_dir_str = current_dir.to_string_lossy().to_string();
+    // get toml meta data
+    get_toml_data(&current_dir_str).unwrap();
+
+    Ok(pack())
 }

@@ -1,17 +1,12 @@
 use super::toml_schema::*;
 use anyhow::Result;
-use std::env;
 use std::fs;
 use std::path::Path;
 use tracing::info;
 
-pub fn get_toml() -> Result<()> {
+pub fn get_toml_data(current_dir: &str) -> Result<()> {
     // Get the current working directory as a String
-    let current_dir = env::current_dir()?;
-    let current_dir_str = current_dir.to_string_lossy().to_string();
-    let workspace_toml = format!("{}/Cargo.toml", current_dir_str);
-
-    info!("Current working directory: {:?}", current_dir_str);
+    let workspace_toml = format!("{}/Cargo.toml", current_dir);
 
     // Check if the Cargo.toml file exists
     if !Path::new(&workspace_toml).exists() {
