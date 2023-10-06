@@ -19,7 +19,7 @@ impl Args {
         match self.action {
             Subcommands::Build(build) => build.run(),
             Subcommands::Clean => todo!("clean"),
-            Subcommands::Serve => todo!("serve"),
+            Subcommands::Serve(serve) => serve.run().await,
         }
     }
 }
