@@ -28,12 +28,13 @@ pub fn pack() {
     //release build
     //wasm-bindgen --target web --out-dir bindings
     //target/wasm32-unknown-unknown/debug/pluto.wasm --no-typescript
+    // TODO: replace ".wasm with workspace name"
     let bindgen = Command::new("wasm-bindgen")
         .arg("--target")
         .arg("web")
         .arg("--out-dir")
         .arg("www")
-        .arg("target/wasm32-unknown-unknown/release/pluto.wasm")
+        .arg("../target/wasm32-unknown-unknown/release/client.wasm")
         .arg("--no-typescript")
         .output()
         .expect("Failed to execute bindgen");
