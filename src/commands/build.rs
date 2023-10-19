@@ -27,5 +27,5 @@ pub fn build(args: &BuildArgs) -> Result<()> {
     // get toml meta data
     get_toml_data(&current_dir_str).unwrap();
 
-    Ok(pack())
+    Ok(pack(&current_dir_str))
 }

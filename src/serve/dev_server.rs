@@ -49,7 +49,9 @@ pub async fn start_server(current_dir: impl AsRef<Path>) {
     } else {
         error!("Failed to read www directory");
     }
-
+    //todo add 0.0.0.0 for unsafe but local access
+    //todo live reload
+    // todo add port option
     let addr = SocketAddr::from(([127, 0, 0, 1], 3030));
     info!("Server is running at http://127.0.0.1:3030");
     axum::Server::bind(&addr)
