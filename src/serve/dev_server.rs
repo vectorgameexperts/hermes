@@ -40,6 +40,7 @@ pub async fn start_server(current_dir: impl AsRef<Path>) {
                     routes = routes
                         .route("/", get(move || static_asset(path.clone())));
                 } else {
+                    //todo ask to generate html
                     routes = routes
                         .route(&route, get(move || static_asset(path.clone())));
                 }
