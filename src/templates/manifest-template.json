@@ -1,0 +1,20 @@
+{
+    "short_name": "{}",
+    "name": "{}",
+    "icons": [
+      
+     
+      {
+        "src": "{}.svg",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any"
+      }
+      
+    ],
+    "start_url": ".",
+    "display": "fullscreen",
+    "theme_color": "#{}",
+    "background_color": "#{}"
+  }
+  
